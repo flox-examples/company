@@ -1,19 +1,27 @@
-context @ { inputs, root, auto, lib, has,... }:
+context @ { inputs, root, auto, lib,... }:
 
 {
   ############################################
   #          Channel Configuration           #
   ############################################
 
-  __reflect.projects = { inherit (root.index) functional-friends; };
-  __reflect.adopted = { };
+  config = {
+    projects = { inherit (root.index) functional-friends; };
+    adopted = { };
+    
+    extraPlugins = [
+      (inputs.capacitor.plugins.allLocalResources {})
+      (inputs.capacitor.plugins.templates {})
+    ]; 
+  };
 
   ############################################
   #    Channel Re-Exports and Definitions    #
   ############################################
 
-  packages = (auto.localPkgs context "pkgs/") // {};
-  apps = (auto.localResources "apps" context "apps/") // {};
-  devShells = (auto.localResources "devShells" context "shells/") // {};
-  lib = (auto.localResources "lib" context "lib/") // {};
+  apps = {};
+  devShells = {};
+  packages = {};
+  lib = {};
+
 }
